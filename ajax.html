@@ -1,0 +1,47 @@
+<html>
+  <title>NodeMCU</title>
+<body>
+<h1>NodeMCU AJAX</h1>
+<hr>
+
+USD: <div id="USDRUB"></div>
+EUR: <div id="EURRUB"></div>
+GBP: <div id="GBPRUB"></div>
+JPY: <div id="JPYRUB"></div>
+BYN: <div id="BYNRUB"></div>
+AED: <div id="AEDRUB"></div>
+
+<form action="get_json.lua">
+<button>Send data in Proteus</button>
+</form>
+
+<script>
+id = 0;
+refresh_data();
+function refresh_data() {
+  loadJSON('get_json.lua', function(response) {
+    var json_obj = JSON.parse(response);
+    document.getElementById('USDRUB').innerHTML = json_obj.data.USDRUB;
+    document.getElementById('EURRUB').innerHTML = json_obj.data.EURRUB;
+    document.getElementById('GBPRUB').innerHTML = json_obj.data.GBPRUB;
+    document.getElementById('JPYRUB').innerHTML = json_obj.data.JPYRUB;
+    document.getElementById('BYNRUB').innerHTML = json_obj.data.BYNRUB;
+    document.getElementById('AEDRUB').innerHTML = json_obj.data.AEDRUB;
+  });
+}
+function loadJSON(json_url, callback) {
+  var xobj = new XMLHttpRequest();
+  xobj.overrideMimeType("application/json");
+  xobj.open('GET', json_url, true);
+  xobj.onreadystatechange = function () {
+    if (xobj.readyState == 4 && xobj.status == "200") {
+      callback(xobj.responseText);
+    }
+  };
+  xobj.send(null);
+}
+  
+</script>
+
+</body>
+</html>
